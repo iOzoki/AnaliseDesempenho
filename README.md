@@ -7,6 +7,9 @@ Abaixo uma planilha do tempo de execução dos códigos com as devidas informaç
 https://docs.google.com/spreadsheets/d/1OCl8PpwWCmb1kllsoO6ULcd-rFquRRXt2YdrgPmIjCY/edit?usp=sharing
 #
 Especificações de hardware aonde foi executado os códigos:
+#
 Processador: i5-10400f
+#
 Memória ram: 8Gb Ram DDR4 3000Mhz
+#
 SO: Windows 11
