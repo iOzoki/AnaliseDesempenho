@@ -119,33 +119,36 @@ class Node {
     if (err) throw err;
   
     const lines = data.trim().split('\n');
-    const commandStart = lines.findIndex(line => line.trim() === '1183') + 1;
+  
+    const commandStart = lines.findIndex(line => /^\d+$/.test(line.trim()));
+    const totalCommands = parseInt(lines[commandStart]);
+    const actions = lines.slice(commandStart + 1, commandStart + 1 + totalCommands);
   
     const list = new LinkedList();
   
+    const initialNumbers = lines[0].split(' ').map(Number);
+    initialNumbers.forEach(num => list.push(num));
+  
     console.time('Execução');
-
-  for (let i = commandStart; i < lines.length; i++) {
-    const line = lines[i].trim();
-
-    if (line === '') continue;
-
-    if (line === 'P') {
-      console.log('📄 Lista:', list.toString());
-    } else if (line.startsWith('A')) {
-      const [, valueStr, posStr] = line.split(' ');
-      const value = parseInt(valueStr);
-      const pos = parseInt(posStr);
-      list.insertAt(value, pos);
-    } else if (line.startsWith('R')) {
-      const [, posStr] = line.split(' ');
-      const pos = parseInt(posStr);
-      list.removeAt(pos);
+  
+    for (let line of actions) {
+      line = line.trim();
+      if (line === '') continue;
+  
+      if (line === 'P') {
+        console.log(list.toString());
+      } else if (line.startsWith('A')) {
+        const [, valueStr, posStr] = line.split(' ');
+        const value = parseInt(valueStr);
+        const pos = parseInt(posStr);
+        list.insertAt(value, pos);
+      } else if (line.startsWith('R')) {
+        const [, posStr] = line.split(' ');
+        const pos = parseInt(posStr);
+        list.removeAt(pos);
+      }
     }
-  }
-
-  console.timeEnd('Execução');
-
-    
+  
+    console.timeEnd('Execução');
   });
   
