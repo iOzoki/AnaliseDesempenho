@@ -56,9 +56,9 @@ class LinkedList:
 
         current = self.head
         while current is not None:
-            print(f"{current.value} -> ", end="")
+            print(f"{current.value} >>> ", end="")
             current = current.next
-        print("END")
+        print("None")
 
     def size(self):
         count = 0
@@ -70,19 +70,15 @@ class LinkedList:
 
 def main():
     start_time = time.time()
-    commands = []
     try:
+        commands = []
         with open('arq-novo.txt', 'r') as file:
             for line in file:
                 line = line.strip()
-                if line and not line.startswith('#'):
+                if line:
                     commands.append(line)
     except:
         print("Error reading the file!")
-        return
-
-    if len(commands) < 2:
-        print("Invalid file!")
         return
 
     initial_numbers = list(map(int, commands[0].split()))
