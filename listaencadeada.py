@@ -81,9 +81,23 @@ def main():
         print("Error reading the file!")
         return
 
-    initial_numbers = list(map(int, commands[0].split()))
-    total_commands = int(commands[1])
-    actions = commands[2:2 + total_commands]
+    linha_comandos_index = -1
+    total_commands = 0
+
+    for i, linha in enumerate(commands):
+        if linha.isdigit():
+            total_commands = int(linha)
+            linha_comandos_index = i
+            break
+
+    if linha_comandos_index == -1:
+        return
+
+    initial_numbers = []
+    for i in range(linha_comandos_index):
+        initial_numbers += list(map(int, commands[i].split()))
+
+    actions = commands[linha_comandos_index + 1 : linha_comandos_index + 1 + total_commands]
 
     my_list = LinkedList()
     for num in initial_numbers:
@@ -108,7 +122,9 @@ def main():
                 my_list.show_list()
         except (ValueError, IndexError):
             print(f"Invalid command ignored: {command}")
+
     end_time = time.time()
     print(f"Tempo de execução: {end_time - start_time:.4f} segundos")
+
 if __name__ == "__main__":
     main()
