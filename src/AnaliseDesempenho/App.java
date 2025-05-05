@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,21 +21,42 @@ public class App {
 
         try {
             scanner = new Scanner(arquivoFile);
-            if(scanner.hasNextLine()){
-                String[] valoresIniciais = scanner.nextLine().split(" ");
-                for(String val : valoresIniciais) {
-                    linkedList.Adicionar(Integer.parseInt(val));
-                }        
+            List<String> linhas = new ArrayList<>();
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine().trim();
+                if (!linha.isEmpty()) {
+                    linhas.add(linha);
+                }
             }
 
+            int linhaComandosIndex = -1;
             int numeroAcoes = 0;
-            if (scanner.hasNextInt()) {
-                numeroAcoes = scanner.nextInt();
+
+            for (int i = 0; i < linhas.size(); i++) {
+                if (linhas.get(i).matches("\\d+")) {
+                    numeroAcoes = Integer.parseInt(linhas.get(i));
+                    linhaComandosIndex = i;
+                    break;
+                }
             }
+
+            if (linhaComandosIndex == -1) {
+                return;
+            }
+
+            for (int i = 0; i < linhaComandosIndex; i++) {
+                String[] valores = linhas.get(i).split("\\s+");
+                for (String val : valores) {
+                    if (!val.isEmpty()) {
+                        linkedList.Adicionar(Integer.parseInt(val));
+                    }
+                }
+            }
+
 
             int contador = 0;
-            while (scanner.hasNextLine() && contador < numeroAcoes) {
-                String linha = scanner.nextLine().trim();
+            for (int i = linhaComandosIndex + 1; i < linhas.size() && contador < numeroAcoes; i++, contador++) {
+                String linha = linhas.get(i).trim();
                 if (linha.isEmpty()) {
                     continue;
                 }
