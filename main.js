@@ -47,10 +47,6 @@ class Node {
           return true;
         }
   
-    remove(element) {
-      const index = this.indexOf(element);
-      return this.removeAt(index);
-    }
   
     getElementAt(position) {
       if (position < 0 || position >= this.count) return undefined;
@@ -126,8 +122,12 @@ class Node {
   
     const list = new LinkedList();
   
-    const initialNumbers = lines[0].split(' ').map(Number);
-    initialNumbers.forEach(num => list.push(num));
+    const initialNumberLines = lines.slice(0, commandStart);
+    const initialNumbers = initialNumberLines.flatMap(line => line.trim().split(/\s+/).map(Number));
+  
+    for (const num of initialNumbers) {
+      list.push(num);
+    }
   
     console.time('Execução');
   
@@ -151,4 +151,5 @@ class Node {
   
     console.timeEnd('Execução');
   });
+  
   
